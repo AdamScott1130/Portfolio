@@ -1,0 +1,903 @@
+{
+	"info": {
+		"_postman_id": "35dd9334-b553-427d-b214-c2d53a559bdc",
+		"name": "Food Delivery API Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49654506",
+		"_collection_link": "https://adamscott1130-121469.postman.co/workspace/Adam-Scott's-Workspace~6d9df5b4-080b-4f34-84ae-429274e87efa/collection/49654506-35dd9334-b553-427d-b214-c2d53a559bdc?action=share&source=collection_link&creator=49654506"
+	},
+	"item": [
+		{
+			"name": "Drivers Endpoint",
+			"item": [
+				{
+					"name": "Create",
+					"item": [
+						{
+							"name": "Create Driver",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"POST request to /drivers for creating a new driver returned code '201 OK'\", () => {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"const responseJson = pm.response.json();\r",
+											"\r",
+											"pm.test(\"City ID in the response body matches City ID in the /drivers POST request body.\", () => {\r",
+											"    pm.expect(responseJson.cityId).to.match(/1/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Latitude in response body matches latitude in the /drivers POST request body.\", () => {\r",
+											"    pm.expect(responseJson.lastKnownLatitude).to.match(/43° 28' 39.33''/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Longitude in response body matches longitude in the /drivers POST request body.\", () => {\r",
+											"    pm.expect(responseJson.lastKnownLongitude).to.match(/80° 31' 32.12''/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"isActive in response body matches isActive in the /drivers POST request body.\", () => {\r",
+											"    pm.expect(responseJson.isActive).to.equal(true);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Driver created by POST request to /drivers has a driverId'\", () => {\r",
+											"    pm.expect(responseJson).to.have.property(\"driverId\");\r",
+											"    pm.collectionVariables.set(\"testDriverId\", responseJson.driverId);\r",
+											"    pm.collectionVariables.set(\"testBadDriverId\", responseJson.driverId + 1);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Postman Collection Variable 'testDriverId' is set to the driverId from the response body.\", () => {\r",
+											"\r",
+											"    pm.expect(responseJson.driverId).to.equal(pm.collectionVariables.get(\"testDriverId\"));\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cityId\": 1,\r\n    \"lastKnownLatitude\": \"43° 28' 39.33''\",\r\n    \"lastKnownLongitude\": \"80° 31' 32.12''\",\r\n    \"isActive\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://69372600f8dc350aff33811a.mockapi.io/api/drivers/",
+									"protocol": "https",
+									"host": [
+										"69372600f8dc350aff33811a",
+										"mockapi",
+										"io"
+									],
+									"path": [
+										"api",
+										"drivers",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Read",
+					"item": [
+						{
+							"name": "Read Driver - Check That It Was Created",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"pm.test(\"GET request to /drivers for reading the driver we just created returns '200 OK'\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const responseJson = pm.response.json();\r",
+											"\r",
+											"pm.test(\"City ID in the response body matches City ID in the /drivers POST request body.\", () => {\r",
+											"    pm.expect(responseJson.cityId).to.match(/1/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Latitude in response body matches latitude in the /drivers POST request body.\", () => {\r",
+											"    pm.expect(responseJson.lastKnownLatitude).to.match(/43° 28' 39.33''/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Longitude in response body matches longitude in the /drivers POST request body.\", () => {\r",
+											"    pm.expect(responseJson.lastKnownLongitude).to.match(/80° 31' 32.12''/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"isActive in response body matches isActive in the /drivers POST request body.\", () => {\r",
+											"    pm.expect(responseJson.isActive).to.equal(true);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"driverId in response body matches driverId in the /drivers POST request body.'\", () => {\r",
+											"    pm.expect(responseJson.driverId).to.equal(pm.collectionVariables.get(\"testDriverId\"));\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://69372600f8dc350aff33811a.mockapi.io/api/drivers/{{testDriverId}}",
+									"protocol": "https",
+									"host": [
+										"69372600f8dc350aff33811a",
+										"mockapi",
+										"io"
+									],
+									"path": [
+										"api",
+										"drivers",
+										"{{testDriverId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read Driver - Negative Case,  Target Does Not Exist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"GET request to /drivers for an ID higher than the one we just created returns '404 Not Found'\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://69372600f8dc350aff33811a.mockapi.io/api/drivers/{{testBadDriverId}}",
+									"protocol": "https",
+									"host": [
+										"69372600f8dc350aff33811a",
+										"mockapi",
+										"io"
+									],
+									"path": [
+										"api",
+										"drivers",
+										"{{testBadDriverId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Update",
+					"item": [
+						{
+							"name": "Update Driver - Latitude and Longitude",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"pm.test(\"PUT request to /drivers for updating the driver we just created returns '200 OK'\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const responseJson = pm.response.json();\r",
+											"\r",
+											"pm.test(\"City ID in the response body matches City ID in the /drivers POST request body.\", () => {\r",
+											"    pm.expect(responseJson.cityId).to.match(/1/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Latitude in response body matches latitude in the /drivers PUT request body.\", () => {\r",
+											"    pm.expect(responseJson.lastKnownLatitude).to.match(/43° 28' 54.47''/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Longitude in response body matches longitude in the /drivers PUT request body.\", () => {\r",
+											"    pm.expect(responseJson.lastKnownLongitude).to.match(/80° 31' 31.15''/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"isActive in response body matches isActive in the /drivers POST request body.\", () => {\r",
+											"    pm.expect(responseJson.isActive).to.equal(true);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"driverId in response body matches driverId in the /drivers POST request body.\", () => {\r",
+											"    pm.expect(responseJson.driverId).to.equal(pm.collectionVariables.get(\"testDriverId\"));\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"lastKnownLatitude\": \"43° 28' 54.47''\",\r\n    \"lastKnownLongitude\": \"80° 31' 31.15''\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://69372600f8dc350aff33811a.mockapi.io/api/drivers/{{testDriverId}}",
+									"protocol": "https",
+									"host": [
+										"69372600f8dc350aff33811a",
+										"mockapi",
+										"io"
+									],
+									"path": [
+										"api",
+										"drivers",
+										"{{testDriverId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Driver - Negative Case,  Target Does Not Exist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"PUT request to /drivers for an ID higher than the one we just created returns '404 Not Found'\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "https://69372600f8dc350aff33811a.mockapi.io/api/drivers/{{testBadDriverId}}",
+									"protocol": "https",
+									"host": [
+										"69372600f8dc350aff33811a",
+										"mockapi",
+										"io"
+									],
+									"path": [
+										"api",
+										"drivers",
+										"{{testBadDriverId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete",
+					"item": [
+						{
+							"name": "Delete Driver - Validate Response of Positive Case",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"pm.test(\"DELETE request to /drivers for updating the driver we just created returns '200 OK'\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const responseJson = pm.response.json();\r",
+											"\r",
+											"pm.test(\"City ID in the response body matches City ID in the /drivers POST request body.\", () => {\r",
+											"    pm.expect(responseJson.cityId).to.match(/1/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Latitude in response body matches latitude in the /drivers PUT request body.\", () => {\r",
+											"    pm.expect(responseJson.lastKnownLatitude).to.match(/43° 28' 54.47''/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Longitude in response body matches longitude in the /drivers PUT request body.\", () => {\r",
+											"    pm.expect(responseJson.lastKnownLongitude).to.match(/80° 31' 31.15''/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"isActive in response body matches isActive in the /drivers POST request body.\", () => {\r",
+											"    pm.expect(responseJson.isActive).to.equal(true);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"driverId in response body matches driverId in the /drivers POST request body.\", () => {\r",
+											"    pm.expect(responseJson.driverId).to.equal(pm.collectionVariables.get(\"testDriverId\"));\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://69372600f8dc350aff33811a.mockapi.io/api/drivers/{{testDriverId}}",
+									"protocol": "https",
+									"host": [
+										"69372600f8dc350aff33811a",
+										"mockapi",
+										"io"
+									],
+									"path": [
+										"api",
+										"drivers",
+										"{{testDriverId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Driver - Check That It's Gone, Negative Case",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"DELETE request to /drivers for updating the driver we just deleted returns '404 Not Found'\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://69372600f8dc350aff33811a.mockapi.io/api/drivers/{{testDriverId}}",
+									"protocol": "https",
+									"host": [
+										"69372600f8dc350aff33811a",
+										"mockapi",
+										"io"
+									],
+									"path": [
+										"api",
+										"drivers",
+										"{{testDriverId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Orders Endpoint",
+			"item": [
+				{
+					"name": "Create",
+					"item": [
+						{
+							"name": "Create Order",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"POST request to /orders for creating a new order returned code '201 OK'\", () => {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"const responseJson = pm.response.json();\r",
+											"\r",
+											"pm.test(\"createdAt in response body matches createdAt in the /order POST request body.\", () => {\r",
+											"    pm.expect(responseJson.createdAt).to.equal(1763333333);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"City ID in the response body matches City ID in the /order POST request body.\", () => {\r",
+											"    pm.expect(responseJson.cityId).to.match(/1/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Latitude in response body matches latitude in the /order POST request body.\", () => {\r",
+											"    pm.expect(responseJson.destinationLatitude).to.match(/43° 28' 44.55''/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Longitude in response body matches longitude in the /order POST request body.\", () => {\r",
+											"    pm.expect(responseJson.destinationLongitude).to.match(/80° 31' 7.40''/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Order created by POST request to /order has an orderId'\", () => {\r",
+											"    pm.expect(responseJson).to.have.property(\"orderId\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Order created by POST request to /order has an orderId'\", () => {\r",
+											"    pm.expect(responseJson).to.have.property(\"orderId\");\r",
+											"    pm.collectionVariables.set(\"testOrderId\", responseJson.orderId);\r",
+											"    pm.collectionVariables.set(\"testBadOrderId\", responseJson.orderId + 1);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Postman Collection Variable 'testorderId' is set to the orderId from the response body.\", () => {\r",
+											"\r",
+											"    pm.expect(responseJson.orderId).to.equal(pm.collectionVariables.get(\"testOrderId\"));\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"createdAt\": 1763333333,\r\n    \"cityId\": 1,\r\n    \"address\": \"108 University Ave E\",\r\n    \"destinationLatitude\": \"43° 28' 44.55''\",\r\n    \"destinationLongitude\": \"80° 31' 7.40''\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://69372600f8dc350aff33811a.mockapi.io/api/orders/",
+									"protocol": "https",
+									"host": [
+										"69372600f8dc350aff33811a",
+										"mockapi",
+										"io"
+									],
+									"path": [
+										"api",
+										"orders",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Read",
+					"item": [
+						{
+							"name": "Read Order - Check That It Was Created",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"GET request to /orders for reading the order we just created returned code '200 OK'\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const responseJson = pm.response.json();\r",
+											"\r",
+											"pm.test(\"createdAt in response body matches createdAt in the /order POST request body.\", () => {\r",
+											"    pm.expect(responseJson.createdAt).to.equal(1763333333);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"City ID in the response body matches City ID in the /order POST request body.\", () => {\r",
+											"    pm.expect(responseJson.cityId).to.match(/1/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Latitude in response body matches latitude in the /order POST request body.\", () => {\r",
+											"    pm.expect(responseJson.destinationLatitude).to.match(/43° 28' 44.55''/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Longitude in response body matches longitude in the /order POST request body.\", () => {\r",
+											"    pm.expect(responseJson.destinationLongitude).to.match(/80° 31' 7.40''/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"orderId in response body matches orderId in the /order POST request body.'\", () => {\r",
+											"    pm.expect(responseJson.orderId).to.equal(pm.collectionVariables.get(\"testOrderId\"));\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://69372600f8dc350aff33811a.mockapi.io/api/orders/{{testOrderId}}",
+									"protocol": "https",
+									"host": [
+										"69372600f8dc350aff33811a",
+										"mockapi",
+										"io"
+									],
+									"path": [
+										"api",
+										"orders",
+										"{{testOrderId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read Order - Negative Case,  Target Does Not Exist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"GET request to /orders for an ID higher than the one we just created returns '404 Not Found'\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://69372600f8dc350aff33811a.mockapi.io/api/orders/{{testBadOrderId}}",
+									"protocol": "https",
+									"host": [
+										"69372600f8dc350aff33811a",
+										"mockapi",
+										"io"
+									],
+									"path": [
+										"api",
+										"orders",
+										"{{testBadOrderId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Update",
+					"item": [
+						{
+							"name": "Update Order Latitude and Longitude",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"PUT request to /orders for updating the order we just created returned code '200 OK'\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const responseJson = pm.response.json();\r",
+											"\r",
+											"pm.test(\"createdAt in response body matches createdAt in the /order POST request body.\", () => {\r",
+											"    pm.expect(responseJson.createdAt).to.equal(1763333333);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"City ID in the response body matches City ID in the /order POST request body.\", () => {\r",
+											"    pm.expect(responseJson.cityId).to.match(/1/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Latitude in response body matches latitude in the /order PUT request body.\", () => {\r",
+											"    pm.expect(responseJson.destinationLatitude).to.match(/43° 28' 23.97''/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Longitude in response body matches longitude in the /order PUT request body.\", () => {\r",
+											"    pm.expect(responseJson.destinationLongitude).to.match(/80° 31' 31.29''/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"orderId in response body matches orderId in the /order POST request body.'\", () => {\r",
+											"    pm.expect(responseJson.orderId).to.equal(pm.collectionVariables.get(\"testOrderId\"));\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"destinationLatitude\": \"43° 28' 23.97''\",\r\n    \"destinationLongitude\": \"80° 31' 31.29''\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://69372600f8dc350aff33811a.mockapi.io/api/orders/{{testOrderId}}",
+									"protocol": "https",
+									"host": [
+										"69372600f8dc350aff33811a",
+										"mockapi",
+										"io"
+									],
+									"path": [
+										"api",
+										"orders",
+										"{{testOrderId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Order - Negative Case,  Target Does Not Exist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"PUT request to /order for an ID higher than the one we just created returns '404 Not Found'\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "https://69372600f8dc350aff33811a.mockapi.io/api/orders/{{testBadOrderId}}",
+									"protocol": "https",
+									"host": [
+										"69372600f8dc350aff33811a",
+										"mockapi",
+										"io"
+									],
+									"path": [
+										"api",
+										"orders",
+										"{{testBadOrderId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete",
+					"item": [
+						{
+							"name": "Delete Order - Validate Response of Positive Case",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"PUT request to /orders for updating the order we just created returned code '200 OK'\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const responseJson = pm.response.json();\r",
+											"\r",
+											"pm.test(\"createdAt in response body matches createdAt in the /order POST request body.\", () => {\r",
+											"    pm.expect(responseJson.createdAt).to.equal(1763333333);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"City ID in the response body matches City ID in the /order POST request body.\", () => {\r",
+											"    pm.expect(responseJson.cityId).to.match(/1/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Latitude in response body matches latitude in the /order PUT request body.\", () => {\r",
+											"    pm.expect(responseJson.destinationLatitude).to.match(/43° 28' 23.97''/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Longitude in response body matches longitude in the /order PUT request body.\", () => {\r",
+											"    pm.expect(responseJson.destinationLongitude).to.match(/80° 31' 31.29''/);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"orderId in response body matches orderId in the /order POST request body.'\", () => {\r",
+											"    pm.expect(responseJson.orderId).to.equal(pm.collectionVariables.get(\"testOrderId\"));\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://69372600f8dc350aff33811a.mockapi.io/api/orders/{{testOrderId}}",
+									"protocol": "https",
+									"host": [
+										"69372600f8dc350aff33811a",
+										"mockapi",
+										"io"
+									],
+									"path": [
+										"api",
+										"orders",
+										"{{testOrderId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Order - Check That It's Gone, Negative Case",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"DELETE request to /orders for updating the order we just deleted returns '404 Not Found'\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://69372600f8dc350aff33811a.mockapi.io/api/orders/{{testOrderId}}",
+									"protocol": "https",
+									"host": [
+										"69372600f8dc350aff33811a",
+										"mockapi",
+										"io"
+									],
+									"path": [
+										"api",
+										"orders",
+										"{{testOrderId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "testDriverId",
+			"value": ""
+		},
+		{
+			"key": "testBadDriverId",
+			"value": ""
+		},
+		{
+			"key": "testOrderId",
+			"value": ""
+		},
+		{
+			"key": "testBadorderId",
+			"value": ""
+		},
+		{
+			"key": "testBadOrderId",
+			"value": ""
+		}
+	]
+}
