@@ -17,7 +17,7 @@ To run this testing suite, open Postman and import the attached collection, then
 
 
 ### Run Results
-
+![Run Results](https://raw.githubusercontent.com/AdamScott1130/Portfolio/refs/heads/main/Projects/API%20Testing%20With%20Postman/Run%20Results.png)
 
 
 
